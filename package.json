@@ -1,0 +1,29 @@
+{
+  "name": "anylease-be-pjt-29",
+  "version": "1.0.0",
+  "description": "Server side logic for A service that allows individuals and organizations to lease equipment for long or short term use. ",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maxohayce/anylease-be-pjt-29.git"
+  },
+  "author": "Maxohayce <devmax.corl@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "bugs": {
+    "url": "https://github.com/Maxohayce/anylease-be-pjt-29/issues"
+  },
+  "homepage": "https://github.com/Maxohayce/anylease-be-pjt-29#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.12.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.14"
+  }
+}
