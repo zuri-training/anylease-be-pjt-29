@@ -15,7 +15,7 @@
   },
   "homepage": "https://github.com/Maxohayce/anylease-be-pjt-29#readme",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "keywords": [],
   "dependencies": {
@@ -24,6 +24,10 @@
     "express": "^4.17.1",
     "express-validator": "^6.12.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.14"
+    "mongoose": "^5.12.14",
+    "yarn": "^1.22.10"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }
