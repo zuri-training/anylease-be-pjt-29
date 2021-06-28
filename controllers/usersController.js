@@ -4,15 +4,60 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const { SECRET } = process.env;
+const expiry = 3600;
 
 
 
 exports.registerUser = async ( req, res) => {
-    try {
+    // try {()
+        User.findOne({email: req.body.email}, (err, existingUser) => {
+            if(err) {
+                return res.status(500).json({err})
+            }
+            if (existingUser) {
+                return res.status(400).json({ message: "Auser with this email already exists"}) 
+            }
+            User.create({
+                fullName: req.body.fullName
+            }, (err, newUser) => {
+                if(err) {
+                    res.status(500).json({ err })
+                }
+                //hash user password
+                bcrypt.genSalt(10, (err, salt) => {
+                    if (err) {
+                        return res.status(500).json({ err })
+                    }
+                    bcrypt.hash(req.body.password, salt, (err, hashedPassword) => {
+                        if (err) {
+                            return res.status(500).json({ err })
+                        }
+                    })
+                    //save password to db
+                    newUser.password = hashedPassword;
+                    newUser.save (( err, savedUser) => {
+                        if(err) {
+                            return res.status(500).json({ err })
+                        }
 
-    } catch {
+                        jwt.sign ({
+                            id: newUser._id,
+                            email: newUser.email,
+                            fullName: newUser.fullName
+                        }, SECRET ,{expiresIn: expiry}, (err, token) => {
+                            if(err) {
+                                return res.status(500).json({ err })
+                            }
+                            return res.status(200).json({ message: "registration successful",
+                        token })
+                        })
+                    })
+                })
+            })
+        })
+    // } catch {
         
-    }
+    // }
 }
 
 
@@ -47,11 +92,11 @@ exports.loginUser = async (req, res) => {
 
     //else
     //destructure request body
-    const { email, password } = req.body;
+    const { email, phoneNumber, password } = req.body;
 
     try {
         //initialise user
-        let user = await User.findOne({ email });
+        let user = await User.findOne({ email , phoneNumber });
 
         if(!user) return res
         .status(400).json({ statusCode: 400, message: "invalid credentials"});
@@ -76,7 +121,7 @@ exports.loginUser = async (req, res) => {
         jwt.sign(
             payload, SECRET,
             {
-                expiresIn: 90000,
+                expiresIn: expiry,
             },
             (err, token) => {
                 if (err) throw err; 
@@ -84,8 +129,8 @@ exports.loginUser = async (req, res) => {
                         statusCode: 200,
                         message: "Logged in successfully",
                         user: {
-                            firstName: user.firstName,
-                            lastName: user.lastName,
+                            fullName: user.fullName,
+                            phoneNumber: user.phoneNumber,
                             email: user.email,
                             userRole: user.userRole,
                             isLeaser: user.isLeaser,
