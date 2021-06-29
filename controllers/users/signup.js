@@ -1,6 +1,6 @@
 const validator = require("validator");
 
-const User = require("../../../models/User")
+const User = require("../../models/User")
 
 module.exports = (req, res) => {
     const user = req.body
