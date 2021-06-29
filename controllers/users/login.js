@@ -1,5 +1,5 @@
 // Mongoose model imports
-const User = require('../../../models/User');
+const User = require('../../models/User');
 
 // Module export
 module.exports = (req, res) => {
